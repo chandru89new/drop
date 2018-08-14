@@ -17,7 +17,7 @@
     body {
       font-size: 11px;
       font-family: monospace;
-      margin: 100px 0 0 100px;
+      margin: 100px;
       width: 900px;
       display: flex;
     }
@@ -105,7 +105,8 @@
     }
 
     .drop-open .drop__display:after {
-      transform: rotate(-90deg)
+      transform: rotate(0deg);
+      content: 'x'
     }
 
     .drop-open .drop__options-container {
@@ -146,27 +147,15 @@
       <option value="threemile">Three Mile Island</option>
     </select>
   </div>
-  <!-- <div id="drop1" class="drop drop-open">
-    <div class="drop__display">
-      Apple
-    </div>
-    <div class="drop__options-container">
-      <div class="drop__options-container__search">
-        <input type="text" placeholder="search...">
-      </div>
-      <div class="drop__options-container__options">
-        <ul>
-          <li>Apple</li>
-          <li>Banana</li>
-          <li>Orange</li>
-          <li>Pineapple</li>
-          <li>Apricot</li>
-          <li>Lemon</li>
-          <li>Fig</li>
-          <li>Kiwi</li>
-        </ul>
-      </div>
-    </div> -->
+  <div class="flex">
+    <p>Yet another</p>
+    <select name="" id="" class="drop">
+      <option value="vuejs">Vue</option>
+      <option value="reactjs">React</option>
+      <option value="backbonejs">Backbone</option>
+      <option value="hyperappjs">Hyperapp</option>
+      <option value="angularjs">Angular</option>
+    </select>
   </div>
   <script>
     $(document).ready(function () {

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>dropdown</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/jquery"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-size: 11px;
+      font-family: monospace;
+      margin: 100px 0 0 100px;
+      width: 900px;
+      display: flex;
+    }
+
+    .flex {
+      flex: 1;
+      padding: 15px;
+    }
+
+    p {
+      margin: 11px 0;
+    }
+
+    .drop {
+      width: 100%;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .drop__display {
+      position: relativ;
+      padding: 11px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+    }
+
+    .drop__display:after {
+      content: '>';
+      position: absolute;
+      right: 11px;
+      transform: rotate(90deg)
+    }
+
+    .drop__options-container {
+      display: none;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: white;
+    }
+
+    .drop__options-container__search {
+      width: 100%;
+      max-width: 100%;
+      padding: 11px;
+    }
+
+    .drop__options-container__search input {
+      font-family: inherit;
+      font-size: 11px;
+      width: 100%;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 11px;
+    }
+
+    .drop__options-container__options {
+      max-height: 230px;
+      overflow-y: scroll;
+    }
+
+    .drop__options-container__options ul {
+      list-style: none;
+    }
+
+    .drop__options-container__options ul li {
+      display: block;
+      padding: 11px;
+      display: none;
+    }
+
+    .drop__options-container__options ul li:hover {
+      font-weight: bold;
+      color: red;
+    }
+
+    .drop__options-container__options ul li.match {
+      display: block;
+    }
+
+    .drop-open .drop__display {
+      border-bottom: 0;
+    }
+
+    .drop-open .drop__display:after {
+      transform: rotate(-90deg)
+    }
+
+    .drop-open .drop__options-container {
+      border-top: 0;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex">
+    <p>
+      Single select
+    </p>
+    <select name="" id="" class="drop">
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
+      <option value="orange">Orange</option>
+      <option value="pineapple">Pineapple</option>
+      <option value="apricot">Apricot</option>
+      <option value="lemon">Lemon</option>
+      <option value="fig">Fig</option>
+      <option value="kiwi">Kiwi</option>
+    </select>
+  </div>
+
+  <div class="flex">
+    <p>
+      One more single select
+    </p>
+    <select name="" id="" class="drop">
+      <option value="hiroshima">Hiroshima</option>
+      <option value="nagasaki">Nagasaki</option>
+      <option value="chernobyl">Chernobyl</option>
+      <option value="fuku">Fukushima</option>
+      <option value="windscale">Windscale</option>
+      <option value="idaho">Idaho</option>
+      <option value="threemile">Three Mile Island</option>
+    </select>
+  </div>
+  <!-- <div id="drop1" class="drop drop-open">
+    <div class="drop__display">
+      Apple
+    </div>
+    <div class="drop__options-container">
+      <div class="drop__options-container__search">
+        <input type="text" placeholder="search...">
+      </div>
+      <div class="drop__options-container__options">
+        <ul>
+          <li>Apple</li>
+          <li>Banana</li>
+          <li>Orange</li>
+          <li>Pineapple</li>
+          <li>Apricot</li>
+          <li>Lemon</li>
+          <li>Fig</li>
+          <li>Kiwi</li>
+        </ul>
+      </div>
+    </div> -->
+  </div>
+  <script>
+    $(document).ready(function () {
+
+      $('select.drop').each(function () {
+        const optionEls = $(this).find('option');
+        let optionsHTML = '<ul>';
+        optionEls.each(function () {
+          const value = this.value;
+          const text = $(this).text();
+          optionsHTML += `<li value='${value}'>${text}</li>`;
+        });
+        optionsHTML += `</ul>`;
+        const display = "Select...";
+        const html = `<div class="drop" >
+            <div class="drop__display">${display}</div>
+            <div class="drop__options-container">
+              <div class="drop__options-container__search">
+                <input type="text" placeholder="Search...">
+              </div>
+              <div class="drop__options-container__options">${optionsHTML}</div>
+            </div>
+                </div>`;
+        $(this).after(html);
+        $(this).remove();
+      });
+
+      $(document).on('click', '.drop', function (e) {
+        $(document).find('.drop').not(this).removeClass('drop-open');
+        const target = e.target;
+        const parent = e.currentTarget;
+        const dropDisplay = $(parent).find('.drop__display');
+        const toggle = (target.nodeName == 'LI' || target.classList.contains('drop__display')) ? true : false;
+        if (toggle) {
+          $(parent).toggleClass('drop-open');
+          $(this).find('input').val('');
+          const options = $(parent).find('.drop__options-container__options li');
+          $(options).addClass('match');
+        }
+        const isLi = (target.nodeName == 'LI') ? true : false;
+        if (isLi) {
+          const option = $(target).text();
+          const val = $(target).attr('value');
+          dropDisplay.text(option)
+          dropDisplay.attr('value', val);
+        }
+      });
+
+      $(document).on('keyup', '.drop__options-container__search input', function (e) {
+        const text = $(this).val().toLowerCase();
+        const pattern = new RegExp(text, "i");
+        const options = $(this).closest('.drop').find('li');
+        if (!text.length) {
+          $(options).addClass('match');
+          return false;
+        } else {
+          $(options).removeClass('match');
+        }
+        options.each(function () {
+          const option = this;
+          const optionText = $(option).text().toLowerCase();
+          if (pattern.test(optionText)) {
+            $(option).addClass('match');
+          } else {
+            $(option).removeClass('match');
+          }
+        });
+      });
+
+      $(document).on('keyup', function (e) {
+        const key = e.which || e.key;
+        if (key == 27) {
+          $(this).find('.drop-open').removeClass('drop-open');
+        }
+      })
+
+      // const callback = (e) => {
+      //   const display = $(e).find('.drop__display').text();
+      //   const value = $(e).find('.drop__display').attr('value');
+      //   console.log(display, value);
+      // }
+
+    })
+  </script>
+</body>
+
+</html>

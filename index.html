@@ -17,19 +17,31 @@
     body {
       font-size: 11px;
       font-family: monospace;
-      margin: 100px;
-      width: 900px;
+      margin: 15px;
+      width: auto;
       display: flex;
+      flex-wrap: wrap;
     }
 
     .flex {
       flex: 1;
       padding: 15px;
+      min-width: 200px;
+      max-width: 300px;
     }
 
     p {
       margin: 11px 0;
     }
+
+    .info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 30px;
+    }
+
+    /* drop plugin css */
 
     .drop {
       width: 100%;
@@ -117,10 +129,11 @@
 </head>
 
 <body>
+  <div class="info">
+    <a href="https://github.com/chandru89new/drop">github</a>
+  </div>
   <div class="flex">
-    <p>
-      Single select
-    </p>
+    <p>Single select</p>
     <select name="" id="" class="drop">
       <option value="apple">Apple</option>
       <option value="banana">Banana</option>
@@ -134,9 +147,7 @@
   </div>
 
   <div class="flex">
-    <p>
-      One more single select
-    </p>
+    <p>One more single select</p>
     <select name="" id="" class="drop">
       <option value="hiroshima">Hiroshima</option>
       <option value="nagasaki">Nagasaki</option>
@@ -147,6 +158,7 @@
       <option value="threemile">Three Mile Island</option>
     </select>
   </div>
+
   <div class="flex">
     <p>Yet another</p>
     <select name="" id="" class="drop">
@@ -157,6 +169,7 @@
       <option value="angularjs">Angular</option>
     </select>
   </div>
+
   <script>
     $(document).ready(function () {
 
